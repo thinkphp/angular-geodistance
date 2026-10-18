@@ -1,0 +1,52 @@
+<main class="page-shell">
+  <header class="topbar">
+    <a class="brand" href="#" aria-label="Geo Distance, home page">
+      <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none"><path d="M16 28s9-8.2 9-16a9 9 0 1 0-18 0c0 7.8 9 16 9 16Z" stroke="currentColor" stroke-width="2"/><circle cx="16" cy="12" r="3" stroke="currentColor" stroke-width="2"/><path d="M4 26h7m10 0h7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+      <span>geo<span class="brand-light">distance</span></span>
+    </a>
+    <span class="top-note"><span class="status-dot"></span> Distance calculator</span>
+  </header>
+
+  <section class="hero">
+    <div class="hero-copy">
+      <div class="eyebrow"><span></span> THE WORLD, A LITTLE CLOSER</div>
+      <h1>How far do<br>you want to <em>go?</em></h1>
+      <p class="intro">Find the distance between two places on the globe. Enter a city or country and see the route on the map.</p>
+
+      <form class="search-card" (ngSubmit)="calculateDistance()">
+        <label class="field-label" for="location-a">STARTING POINT</label>
+        <div class="location-field">
+          <span class="location-dot origin" aria-hidden="true"></span>
+          <input id="location-a" name="locationA" [(ngModel)]="locationA" placeholder="e.g. London, United Kingdom" autocomplete="off">
+        </div>
+        <div class="field-divider"><span></span><button class="swap-button" type="button" (click)="swapLocations()" aria-label="Swap locations" title="Swap locations">↕</button><span></span></div>
+        <label class="field-label" for="location-b">DESTINATION</label>
+        <div class="location-field">
+          <span class="location-dot destination" aria-hidden="true"></span>
+          <input id="location-b" name="locationB" [(ngModel)]="locationB" placeholder="e.g. Paris, France" autocomplete="off">
+        </div>
+        <button class="submit-button" type="submit" [disabled]="loading">
+          <span>{{ loading ? 'Calculating…' : 'Calculate distance' }}</span>
+          <span class="button-arrow" aria-hidden="true">↗</span>
+        </button>
+        @if (error) { <p class="error-message" role="alert">{{ error }}</p> }
+      </form>
+      <div class="microcopy"><span class="micro-icon">◎</span> Straight-line distance measured across the Earth's surface.</div>
+    </div>
+
+    <div class="visual-column">
+      <div class="map-card">
+        <div class="map-topline"><span class="map-caption"><span class="map-caption-dot"></span> WORLD MAP</span><span class="map-coordinate">45° 56′ N&nbsp; · &nbsp;24° 58′ E</span></div>
+        <div #mapElement class="map-canvas" aria-label="Interactive map showing the route between locations"></div>
+        @if (result) {
+          <div class="map-result"><span class="result-label">STRAIGHT-LINE DISTANCE</span><strong>{{ result.distance | number:'1.0-0' }} <small>km</small></strong><span class="result-route">{{ result.nameA }} <i>→</i> {{ result.nameB }}</span></div>
+        } @else {
+          <div class="map-hint"><span class="hint-icon">✳</span><span>Your next destination<br>is one search away.</span></div>
+        }
+        <div class="map-legend"><span><i class="legend-origin"></i> Start</span><span><i class="legend-destination"></i> Destination</span></div>
+      </div>
+      <div class="feature-strip"><span class="feature-icon">⌁</span><span><strong>Anywhere in the world</strong><small>Cities and countries, one search</small></span><span class="feature-separator"></span><span class="feature-icon earth-icon">◉</span><span><strong>Accurate results</strong><small>Haversine formula · OpenStreetMap</small></span></div>
+    </div>
+  </section>
+  <footer><span>Made for the curious.</span><span>© 2026 geo<span class="brand-light">distance</span></span></footer>
+</main>

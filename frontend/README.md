@@ -31,7 +31,7 @@ Build output is written to `dist/geo-distance/`.
 
 Set the Vercel project's **Root Directory** to `frontend`. The included
 `vercel.json` runs the production build and publishes Angular's browser output
-from `dist/geo-distance`. If the project root is set to the repository
+from `dist/geo-distance/browser`. If the project root is set to the repository
 root, Vercel will not use this frontend configuration; change the root directory
 to `frontend` and redeploy.
 

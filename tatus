@@ -1,0 +1,69 @@
+[1mdiff --git a/backend/README.md b/backend/README.md[m
+[1mindex 226f78c..9a3ba96 100644[m
+[1m--- a/backend/README.md[m
+[1m+++ b/backend/README.md[m
+[36m@@ -59,6 +59,6 @@[m [mCoordinates and display names depend on the result returned by Nominatim. Invali[m
+ ## Configuration and usage notes[m
+ [m
+ - No geocoding API key is required.[m
+[31m-- The API allows the Angular development origins `http://localhost:4200` and `http://127.0.0.1:4200` through CORS. Update `allow_origins` in `main.py` if the frontend is hosted elsewhere.[m
+[32m+[m[32m- The API allows the Angular development origins `http://localhost:4200` and `http://127.0.0.1:4200`, plus the deployed frontend `https://angular-geodistance.vercel.app` through CORS. Update `allow_origins` in `main.py` if the frontend is hosted elsewhere.[m
+ - The endpoint waits between its two geocoding requests to respect Nominatim's public service rate limit. The public service is intended for limited use; read and follow the [Nominatim usage policy](https://operations.osmfoundation.org/policies/nominatim/).[m
+ - Distances are great-circle distances in kilometers, not driving distances or travel times.[m
+[1mdiff --git a/backend/main.py b/backend/main.py[m
+[1mindex 0589db9..78ea780 100644[m
+[1m--- a/backend/main.py[m
+[1m+++ b/backend/main.py[m
+[36m@@ -13,7 +13,11 @@[m [mapp = FastAPI(title="Geo Distance API", description="Calculate the distance betw[m
+ [m
+ app.add_middleware([m
+     CORSMiddleware,[m
+[31m-    allow_origins=["http://localhost:4200", "http://127.0.0.1:4200"],[m
+[32m+[m[32m    allow_origins=[[m
+[32m+[m[32m        "http://localhost:4200",[m
+[32m+[m[32m        "http://127.0.0.1:4200",[m
+[32m+[m[32m        "https://angular-geodistance.vercel.app",[m
+[32m+[m[32m    ],[m
+     allow_credentials=False,[m
+     allow_methods=["GET", "POST"],[m
+     allow_headers=["Content-Type"],[m
+[1mdiff --git a/frontend/README.md b/frontend/README.md[m
+[1mindex 16902f8..bde841a 100644[m
+[1m--- a/frontend/README.md[m
+[1m+++ b/frontend/README.md[m
+[36m@@ -43,9 +43,9 @@[m [mThe app calculates great-circle distance. It does not calculate driving distance[m
+ [m
+ ## API connection[m
+ [m
+[31m-The frontend currently sends a `POST` request to `http://localhost:8000/distance`.[m
+[31m-That address is only reachable from your own computer, so distance searches on a[m
+[31m-deployed site also need a publicly reachable backend URL and matching CORS[m
+[31m-configuration. This does not prevent the page itself from loading.[m
+[32m+[m[32mThe frontend sends distance requests to the deployed API at[m
+[32m+[m[32m`https://angular-geodistance-j1xx.vercel.app/distance`. The backend must allow[m
+[32m+[m[32mthe deployed frontend's origin in its CORS configuration. For local development,[m
+[32m+[m[32muse a local API URL such as `http://localhost:8000/distance`.[m
+ [m
+ The map uses OpenStreetMap tiles through Leaflet. Keep the map attribution visible when changing the map setup.[m
+[1mdiff --git a/frontend/src/app/app.component.ts b/frontend/src/app/app.component.ts[m
+[1mindex 498c930..cad00b7 100644[m
+[1m--- a/frontend/src/app/app.component.ts[m
+[1m+++ b/frontend/src/app/app.component.ts[m
+[36m@@ -11,6 +11,8 @@[m [minterface DistanceResult {[m
+   nameB: string;[m
+ }[m
+ [m
+[32m+[m[32mconst API_URL = 'https://angular-geodistance-j1xx.vercel.app';[m
+[32m+[m
+ @Component({[m
+   selector: 'app-root',[m
+   standalone: true,[m
+[36m@@ -50,7 +52,7 @@[m [mexport class AppComponent implements AfterViewInit, OnDestroy {[m
+     this.error = '';[m
+     this.result = null;[m
+     try {[m
+[31m-      const response = await fetch('http://localhost:8000/distance', {[m
+[32m+[m[32m      const response = await fetch(`${API_URL}/distance`, {[m
+         method: 'POST',[m
+         headers: { 'Content-Type': 'application/json' },[m
+         body: JSON.stringify({ locationA: from, locationB: to }),[m

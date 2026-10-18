@@ -59,6 +59,6 @@ Coordinates and display names depend on the result returned by Nominatim. Invali
 ## Configuration and usage notes
 
 - No geocoding API key is required.
-- The API allows the Angular development origins `http://localhost:4200` and `http://127.0.0.1:4200` through CORS. Update `allow_origins` in `main.py` if the frontend is hosted elsewhere.
+- The API allows the Angular development origins `http://localhost:4200` and `http://127.0.0.1:4200`, plus the deployed frontend `https://angular-geodistance.vercel.app` through CORS. Update `allow_origins` in `main.py` if the frontend is hosted elsewhere.
 - The endpoint waits between its two geocoding requests to respect Nominatim's public service rate limit. The public service is intended for limited use; read and follow the [Nominatim usage policy](https://operations.osmfoundation.org/policies/nominatim/).
 - Distances are great-circle distances in kilometers, not driving distances or travel times.

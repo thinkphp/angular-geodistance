@@ -43,9 +43,9 @@ The app calculates great-circle distance. It does not calculate driving distance
 
 ## API connection
 
-The frontend currently sends a `POST` request to `http://localhost:8000/distance`.
-That address is only reachable from your own computer, so distance searches on a
-deployed site also need a publicly reachable backend URL and matching CORS
-configuration. This does not prevent the page itself from loading.
+The frontend sends distance requests to the deployed API at
+`https://angular-geodistance-j1xx.vercel.app/distance`. The backend must allow
+the deployed frontend's origin in its CORS configuration. For local development,
+use a local API URL such as `http://localhost:8000/distance`.
 
 The map uses OpenStreetMap tiles through Leaflet. Keep the map attribution visible when changing the map setup.

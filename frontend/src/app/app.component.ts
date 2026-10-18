@@ -11,6 +11,8 @@ interface DistanceResult {
   nameB: string;
 }
 
+const API_URL = 'https://angular-geodistance-j1xx.vercel.app';
+
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -50,7 +52,7 @@ export class AppComponent implements AfterViewInit, OnDestroy {
     this.error = '';
     this.result = null;
     try {
-      const response = await fetch('http://localhost:8000/distance', {
+      const response = await fetch(`${API_URL}/distance`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ locationA: from, locationB: to }),

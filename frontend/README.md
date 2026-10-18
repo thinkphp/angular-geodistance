@@ -27,6 +27,14 @@ npm run build
 
 Build output is written to `dist/geo-distance/`.
 
+## Deploy to Vercel
+
+Set the Vercel project's **Root Directory** to `frontend`. The included
+`vercel.json` runs the production build and publishes Angular's browser output
+from `dist/geo-distance`. If the project root is set to the repository
+root, Vercel will not use this frontend configuration; change the root directory
+to `frontend` and redeploy.
+
 ## Using the app
 
 Enter a city or country in each field, for example `London, United Kingdom` and `Paris, France`, then select **Calculate distance**. The result is shown in kilometers and the map marks both locations. Use the swap control to reverse the locations.
@@ -35,6 +43,9 @@ The app calculates great-circle distance. It does not calculate driving distance
 
 ## API connection
 
-The frontend sends a `POST` request to `http://localhost:8000/distance`. If the API runs at another address, update the `fetch` URL in `src/app/app.component.ts` and allow the frontend origin in the backend's CORS configuration.
+The frontend currently sends a `POST` request to `http://localhost:8000/distance`.
+That address is only reachable from your own computer, so distance searches on a
+deployed site also need a publicly reachable backend URL and matching CORS
+configuration. This does not prevent the page itself from loading.
 
 The map uses OpenStreetMap tiles through Leaflet. Keep the map attribution visible when changing the map setup.
